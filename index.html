@@ -11,22 +11,23 @@
         content="HTML,CSS,Berat Çimen,Berat,Çimen,Berat Çimen Yazılımcı, Berat Çimen Programmer, Berat Dev, Berat Çimen developer">
     <link rel="stylesheet" href="style.css">
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" href="/img/logo-berat.png" type="image/x-icon" />
+    <link rel="icon" href="./img/logo-berat.png" type="image/x-icon" />
+    <script src="https://unpkg.com/scrollreveal"></script>
     <title>Berat Çimen</title>
 </head>
 
 <body>
     <!-- Landing Page New-->
-    <div class="lg:h-screen bg-gradient-to-br from-gray-900 to-black text-white ">
+    <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white ">
 
         <div class="h-20"></div> <!-- Empty block-->
 
-        <div class="p-10 hidden lg:block pulseOnce">
+        <div class="p-10 hidden xl:block revealLandingPage">
             <div class="flex flex-row m-auto justify-center">
 
                 <div class="h-auto w-3/6">
                     <!-- Yazı -->
-                    <div class="lg:h-36"></div> <!-- Empty block-->
+                    <div class="xl:h-36"></div> <!-- Empty block-->
 
                     <div class="flex flex-row">
                         <div class="flex">
@@ -37,62 +38,60 @@
                         </div>
                     </div>
 
-                    <div class="h-8 lg:h-0"></div> <!-- Empty block-->
+                    <div class="h-8 xl:h-0"></div> <!-- Empty block-->
 
-                    <p class="text-6xl lg:text-7xl font-semibold mt-10"> I Think, Desing, Code.</p>
+                    <p class="text-6xl xl:text-7xl font-semibold mt-10"> I Think, Desing, Code.</p>
 
-                    <div class="h-8 lg:h-0"></div> <!-- Empty block-->
+                    <div class="h-8 xl:h-0"></div> <!-- Empty block-->
 
                     <p class="text-2xl mt-10">A student who enjoys creating all sorts of stuff, often breaks many things
                         in the process.</p>
                     <p class="text-2xl mt-3 mb-7">Currently I could be working on too many projects. (or zero 😅)</p>
 
-                    <div class="h-8 lg:h-0"></div> <!-- Empty block-->
+                    <div class="h-8 xl:h-0"></div> <!-- Empty block-->
 
                     <a class="text-2xl text-yellow-500" href="#about">Learn more about me ></a>
                 </div>
 
-                <div class="w-2/6 hidden lg:block">
+                <div class="w-2/6 hidden xl:block">
                     <!-- Resim -->
-                    <img class="beratImage" draggable="false" src="/img/me.png" alt="Me">
+                    <img class="beratImage" draggable="false" src="./img/me.png" alt="Me">
                 </div>
 
             </div>
         </div>
 
-        <div class="lg:hidden p-10 pulseOnce">
+        <div class="xl:hidden p-10">
             <!-- Yazı mobile-->
-            <div class="lg:h-36"></div> <!-- Empty block-->
+            <div class="xl:h-36"></div> <!-- Empty block-->
 
-            <div class="flex flex-row">
+            <div class="flex">
                 <div class="flex">
-                    <p class="text-3xl font-sans ">Hi, I'm Berat!</p>
-                </div>
-                <div class="flex">
-                    <p class="text-l font-sans ml-3 mt-2">(Pronounced like Brad ✌️)</p>
+                    <p class="text-3xl font-sans ">Hi, I'm Berat! <br><small><small>(Pronounced like Brad
+                                ✌️)</small></small></p>
                 </div>
             </div>
 
 
-            <div class="h-8 lg:h-0"></div> <!-- Empty block-->
+            <div class="h-8 xl:h-0"></div> <!-- Empty block-->
 
-            <p class="text-6xl lg:text-7xl font-semibold mt-10"> I Think, Desing, Code.</p>
+            <p class="text-6xl xl:text-7xl font-semibold mt-10"> I Think, Desing, Code.</p>
 
-            <div class="h-8 lg:h-0"></div> <!-- Empty block-->
+            <div class="h-8 xl:h-0"></div> <!-- Empty block-->
 
             <p class="text-2xl mt-10">A student who enjoys creating all sorts of stuff, often breaks many things
                 in the process.</p>
             <p class="text-2xl mt-3 mb-7">Currently I could be working on too many projects. (or zero 😅)</p>
 
-            <div class="h-10 lg:h-0"></div> <!-- Empty block-->
+            <div class="h-10 xl:h-0"></div> <!-- Empty block-->
 
             <a class="text-2xl text-yellow-500" href="#about">Learn more about me ></a>
         </div>
     </div>
 
     <!-- About section-->
-    <div id="about" class="lg:h-screen bg-gradient-to-br from-black to-gray-900">
-        <div class="container mx-auto px-10">
+    <div id="about" class="min-h-screen bg-gradient-to-br from-black to-gray-900">
+        <div class="container mx-auto px-10 revealAboutPage">
             <div class="h-20"></div> <!-- Empty block-->
 
             <p class="text-3xl text-yellow-500 text-right"> About Me </p>
@@ -132,22 +131,22 @@
     </div>
 
     <!-- Contact section-->
-    <div id="contact" class="lg:h-screen bg-gradient-to-br from-gray-900 to-black">
-        <div class="container mx-auto p-10 lg:p-0">
+    <div id="contact" class="min-h-screen bg-gradient-to-br from-gray-900 to-black">
+        <div class="container mx-auto p-10 xl:p-0 revealContactPage">
             <div class="h-20"></div> <!-- Empty block-->
 
             <p class="text-3xl text-yellow-500 text-left"> Contact Me </p>
 
-            <div class="h-20 lg:h-5"></div> <!-- Empty block-->
+            <div class="h-20 xl:h-5"></div> <!-- Empty block-->
 
             <!-- Cards-->
 
             <!-- Instagram-->
             <div class="mb-5">
                 <a href="https://www.instagram.com/berat.cmn/" target="_blank">
-                    <div class="mx-auto rounded-lg w-5/12 lg:w-4/12 bg-gradient-to-br from-black to-gray-900">
-                        <img src="/img/logo_instagram.png" class="mx-auto w-4/6 lg:w-3/12 p-4">
-                        <h4 class="mx-auto w-max text-sm lg:text-2xl text-white p-3">Follow me</h4>
+                    <div class="mx-auto rounded-xl w-5/12 xl:w-4/12 bg-gradient-to-br from-black to-gray-900">
+                        <img src="./img/logo_instagram.png" class="mx-auto w-4/6 xl:w-3/12 p-4">
+                        <h4 class="mx-auto w-max text-sm xl:text-2xl text-white p-3">Follow me</h4>
                     </div>
                 </a>
             </div>
@@ -155,9 +154,9 @@
             <!-- Facebook-->
             <div class="mb-5">
                 <a href="https://www.facebook.com/berat.cmn" target="_blank">
-                    <div class="mx-auto rounded-lg w-5/12 lg:w-4/12 bg-gradient-to-br from-gray-900 to-black">
-                        <img src="/img/logo-facebook.png" class="mx-auto w-4/6 lg:w-3/12 p-4">
-                        <h4 class="mx-auto w-max text-sm lg:text-2xl text-white p-3">Add me</h4>
+                    <div class="mx-auto rounded-xl w-5/12 xl:w-4/12 bg-gradient-to-br from-gray-900 to-black">
+                        <img src="./img/logo-facebook.png" class="mx-auto w-4/6 xl:w-3/12 p-4">
+                        <h4 class="mx-auto w-max text-sm xl:text-2xl text-white p-3">Add me</h4>
                     </div>
                 </a>
             </div>
@@ -165,9 +164,9 @@
             <!-- LinkedIn-->
             <div class="mb-5">
                 <a href="https://www.linkedin.com/in/berat-%C3%A7imen-a72a76183/" target="_blank">
-                    <div class="mx-auto rounded-lg w-5/12 lg:w-4/12 bg-gradient-to-br from-black to-gray-900">
-                        <img src="/img/logo-linkedin.png" class="mx-auto w-4/6 lg:w-3/12 p-4">
-                        <h4 class="mx-auto w-max text-xs lg:text-2xl text-white p-3">Connect with me</h4>
+                    <div class="mx-auto rounded-xl w-5/12 xl:w-4/12 bg-gradient-to-br from-black to-gray-900">
+                        <img src="./img/logo-linkedin.png" class="mx-auto w-4/6 xl:w-3/12 p-4">
+                        <h4 class="mx-auto w-max text-xs xl:text-2xl text-white p-3">Connect with me</h4>
                     </div>
                 </a>
             </div>
@@ -175,13 +174,20 @@
             <!-- Email-->
             <div class="mb-5">
                 <a href="mailto: beratcmn@gmail.com" target="_blank">
-                    <div class="mx-auto rounded-lg w-5/12 lg:w-4/12 bg-gradient-to-br from-gray-900 to-black">
-                        <img src="/img/logo-mail.png" class="mx-auto w-4/6 lg:w-3/12 p-4">
-                        <h4 class="mx-auto w-max text-sm lg:text-2xl text-white p-3">Send me an Email</h4>
+                    <div class="mx-auto rounded-xl w-5/12 xl:w-4/12 bg-gradient-to-br from-gray-900 to-black">
+                        <img src="./img/logo-mail.png" class="mx-auto w-4/6 xl:w-3/12 p-4">
+                        <h4 class="mx-auto w-max text-sm xl:text-2xl text-white p-3">Send me an Email</h4>
                     </div>
                 </a>
             </div>
         </div>
+    </div>
+
+    <script>
+        ScrollReveal({ reset: true }).reveal('.revealLandingPage', { delay: 500 });
+        ScrollReveal({ reset: true }).reveal('.revealAboutPage', { delay: 300 });
+        ScrollReveal({ reset: true }).reveal('.revealContactPage', { delay: 500 });
+    </script>
 </body>
 
 </html>

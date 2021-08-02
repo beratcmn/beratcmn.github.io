@@ -1,32 +1,14 @@
 html {
-    scroll-behavior: smooth;
-}
-
-.pulseOnce {
-    animation-name: pulse;
-    animation-duration: 1s;
+  scroll-behavior: smooth;
 }
 
 .beratImage {
-    max-height: max-content;
-    -webkit-mask-image: -webkit-gradient(linear,
-            center top,
-            center bottom,
-            color-stop(0, rgba(0, 0, 0, 1)),
-            color-stop(1, rgba(0, 0, 0, 0)));
-}
-
-@keyframes pulse {
-
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
+  max-height: max-content;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    center top,
+    center bottom,
+    color-stop(0, rgba(0, 0, 0, 1)),
+    color-stop(1, rgba(0, 0, 0, 0))
+  );
 }
