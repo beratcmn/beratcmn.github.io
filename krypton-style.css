@@ -1,0 +1,13 @@
+.atom-img {
+  /* animation: spinning-img 5s infinite; */
+  animation-name: spinning-img;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+}
+
+@keyframes spinning-img {
+  0% {
+    transform: rotate(360deg);
+  }
+}
