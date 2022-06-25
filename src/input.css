@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.beratImage {
+  max-height: max-content;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    center top,
+    center bottom,
+    color-stop(0, rgba(0, 0, 0, 1)),
+    color-stop(1, rgba(0, 0, 0, 0))
+  );
+}
+
+.atom-img {
+  /* animation: spinning-img 5s infinite; */
+  animation-name: spinning-img;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spinning-img {
+  0% {
+    transform: rotate(360deg);
+  }
+}
