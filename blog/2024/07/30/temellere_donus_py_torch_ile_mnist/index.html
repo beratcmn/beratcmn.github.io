@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="../../../../../img/logo-berat.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.10.0/styles/default.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.10.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <title>Temellere Dönüş, PyTorch ile MNIST</title>
+</head>
+
+<body>
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="w-full h-14 py-4 flex flex-row justify-between items-center">
+            <div>
+                <h1 class="text-3xl">Berat Çimen's Blog</h1>
+            </div>
+
+            <div>
+                <a href="/blog" class="text-xl text-gray-500"> Anasayfa</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="content" class="max-w-4xl mx-auto px-4 py-4">
+        <!-- Blog Content -->
+        <h1>Temellere Dönüş, PyTorch ile MNIST</h1>
+
+<p>Selamlar, uzun süredir LLM'ler ve Transformer modelleri üzerine çalışıyorum, bu konuda birçok farklı modeli inceledim ve kendi modellerimi de geliştirdim. Bu süreçte, model geliştirme sürecinde en çok ihtiyaç duyduğum şeylerden biri, modelin nasıl çalıştığını daha iyi anlamak ve modelin içinde neler olduğunu daha iyi görebilmekti. Daha önce temel bir CS (Computer Science) veya ML (Machine Learning) eğitimi almadım, kariyerimde '<a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Autodidacticism">self-taught</a>' ilerliyorum. Sorumluluklarım genelde <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Large_language_model">LLM</a>'leri fine-tune etmek ve yeni modeller geliştirmek üzerine olduğu için temel ML (Machine Learning) konseptlerinden uzaklaşmaya başladım. Keras ve Tensorflow ile uzun dönem çalışma fırsatı buldum ancak son zamanlarda kendime yaratabildiğim vakitte 'endüstri standartı' haline gelmiş <a rel="noopener" target="_blank" href="https://pytorch.org/">PyTorch</a>'a vakit ayırmak istedim.</p>
+
+<h2>Neler yapacağız?</h2>
+
+<p>Bu yazıda, PyTorch ile MNIST veri kümesi üzerinde bir model eğitmek ve bu süreçte PyTorch'u daha iyi anlamak istiyorum.</p>
+
+<h2>Peki PyTorch nedir?</h2>
+
+<p>En basit haliyle PyTorch bir "<a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/Tensor_(machine_learning)">tensor</a> kütüphanesi". Dolayısıyla temel işlevi tensorlar (çok boyutlu array'ler) ile işlemler yapabilmesi.</p>
+
+<p>Buyurun bakalım ChatGPT ne demiş:</p>
+
+<p>PyTorch, açık kaynaklı bir makine öğrenimi kütüphanesidir ve özellikle derin öğrenme modellerinin geliştirilmesi ve eğitilmesi için kullanılır. 2016 yılında Facebook'un AI Research (FAIR) ekibi tarafından geliştirilmiştir. PyTorch, dinamik hesap grafiği ve sezgisel API tasarımı ile bilinir, bu da araştırmacılar ve geliştiriciler tarafından hızlı bir şekilde model prototipleri oluşturmayı ve deney yapmayı kolaylaştırır.</p>
+
+<p>Başlıca özellikleri şunlardır:</p>
+
+<p>1 <em>Dinamik Hesap Grafiği</em>: PyTorch, veri akışı sırasında hesap grafiğini dinamik olarak oluşturur. Bu, hata ayıklamayı ve model tasarımını daha kolay ve esnek hale getirir.</p>
+
+<p>2 <em>Otomatik Diferansiyasyon</em>: PyTorch, otomatik türev hesaplama (autograd) özelliği ile gradientleri hesaplamayı ve geri yayılımı (backpropagation) otomatikleştirir.</p>
+
+<p>3 <em>Desteklenen Donanım</em>: Hem CPU hem de GPU üzerinde çalışabilir, bu da büyük ölçekli hesaplamaları hızlandırır.</p>
+
+<p>4 <em>Geniş Kapsamlı Kullanım Alanları</em>: Bilgisayarlı görü, doğal dil işleme, sinir ağları gibi çeşitli alanlarda kullanılabilir.</p>
+
+<p>5 <em>Gelişmiş Topluluk ve Dokümantasyon</em>: PyTorch'un güçlü bir topluluğu ve geniş kapsamlı dokümantasyonu vardır, bu da öğrenme sürecini ve problem çözmeyi kolaylaştırır.</p>
+
+<p>Bu özellikleri sayesinde PyTorch, akademik araştırmalarda ve endüstriyel uygulamalarda yaygın olarak kullanılan bir kütüphane haline gelmiştir.</p>
+
+<h2>Ee MNIST ne?</h2>
+
+<p>MNIST, el yazısı rakamlardan oluşan bir veri kümesidir ve genellikle makine öğrenimi ve derin öğrenme modellerinin eğitiminde kullanılır. MNIST veri kümesi, 0 ile 9 arasındaki rakamları temsil eden 28x28 boyutunda siyah-beyaz görüntülerden oluşur. Her bir görüntü, hangi rakamı temsil ettiğini belirten bir etiketle eşlenir. MNIST veri kümesi, genellikle basit bir veri kümesi olarak kabul edilir ve yeni bir makine öğrenimi modeli oluştururken ilk adım olarak sıkça kullanılır.</p>
+
+<p>Kısaca ML (Machine Learning) dünyasında bir 'Hello World' olarak kabul edilir.</p>
+
+<h2>Hadi başlayalım</h2>
+
+<h3>Kurulum</h3>
+
+<p>Önce bir virtual environment oluşturup PyTorch kütüphanesini yükleyelim:</p>
+
+<p>PyTorch dökümantasyonuna <a rel="noopener" target="_blank" href="https://pytorch.org/get-started/locally/">buradan</a> ulaşabilirsiniz.</p>
+
+<pre><code>python -m venv .venv
+source .venv/bin/activate
+pip install torch torchvision torchaudio
+</code></pre>
+
+<p>(Opsiyonel) Ek olarak Keras'tan alışkın olduğum model özetlerini görebilmek için torchinfo kütüphanesini de yükleyelim:</p>
+
+<pre><code>pip install torchinfo
+</code></pre>
+
+<p>Bu süreçte VSCode kullanacağım ve Jupyter Notebook'u VSCode üzerinde çalıştıracağım.</p>
+
+<h3>Hadi kütüphaneleri import edelim</h3>
+
+<pre><code>import torch
+import torchvision
+import torchvision.transforms as transforms
+import torch.nn as nn
+import torch.nn.functional as F
+from torchinfo import summary
+</code></pre>
+
+<h3>Transformları tanımlayalım</h3>
+
+<pre><code>transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+</code></pre>
+
+<p>Transformlar nedir? Transformlar, veri kümesindeki görüntüler üzerinde çeşitli işlemler yapmamızı sağlar. Örneğin, ToTensor() metodu, görüntüyü tensora dönüştürür. Normalize() metodu, görüntü piksellerini belirli bir ortalama ve standart sapma ile normalize eder. Bu işlemler, veri kümesinin daha iyi eğitilmesine ve modelin daha iyi performans göstermesine yardımcı olur çoğunlukla.</p>
+
+<p>Kısaca: Verimizi standart bir hale getirmeye çalışıyoruz.</p>
+
+<h3>Veri kümesini yükleyelim</h3>
+
+<pre><code># Train
+trainset = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)
+
+# Test
+testset = torchvision.datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+
+testloader = torch.utils.data.DataLoader(testset, batch_size=64, shuffle=False)
+</code></pre>
+
+<p><strong>trainset</strong> ile eğitim veri kümesini, <strong>testset</strong> ile test veri kümesini yüklüyoruz. <strong>trainloader</strong> ve <strong>testloader</strong> ile de bu veri kümelerini daha rahat kullanabilmek için DataLoader'a yüklüyoruz. Çok düzgün bir açıklama olmadı bu ama anladığım kadarıyla PyTorch'da veriler <strong>DataLoader</strong>'lar ile yükleniyor ve bu DataLoader'lar üzerinden veri kümesine erişim sağlanıyor.</p>
+
+<p><strong>batch_size</strong> parametresi, her bir adımda kaç verinin işleneceğini belirler. <strong>shuffle</strong> parametresi ise veri kümesinin her bir epoch'ta karıştırılıp karıştırılmayacağını belirler.</p>
+
+<h3>Modeli tanımlayalım</h3>
+
+<pre><code>class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.fc1 = nn.Linear(28 * 28, 512)
+        self.fc2 = nn.Linear(512, 256)
+        self.fc3 = nn.Linear(256, 10)
+
+    def forward(self, x):
+        x = x.view(-1, 28 * 28)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+</code></pre>
+
+<p>Adım adım gidelim:</p>
+
+<ol>
+<li><strong>Net</strong> adında bir sınıf tanımlıyoruz ve bu sınıf <strong>nn.Module</strong>'den türetiliyor.</li>
+<li><strong>__init__</strong> metodu, sınıfın başlatıcı metodu olup, modelin katmanlarını tanımlar.</li>
+<li><strong>forward</strong> metodu, modelin ileri geçişini tanımlar. İleri geçiş, modelin girdisini alır ve çıktıyı üretir.</li>
+<li><strong>nn.Linear</strong> metodu, tam bağlı bir katman oluşturur. İ</li>
+<li><strong>F.relu</strong> metodu, ReLU aktivasyon fonksiyonunu uygular.</li>
+<li><strong>x.view(-1, 28 * 28)</strong>, girdiyi yeniden şekillendirir. -1, girdinin boyutunu otomatik olarak ayarlar.</li>
+<li><strong>x = F.relu(self.fc1(x))</strong>, girdiyi ilk tam bağlı katmandan geçirir ve ReLU aktivasyon fonksiyonunu uygular.</li>
+<li><strong>x = F.relu(self.fc2(x))</strong>, girdiyi ikinci tam bağlı katmandan geçirir ve ReLU aktivasyon fonksiyonunu uygular.</li>
+<li><strong>x = self.fc3(x)</strong>, girdiyi üçüncü tam bağlı katmandan geçirir ve çıktıyı üretir.</li>
+<li><strong>return x</strong>, çıktıyı döndürür.</li>
+</ol>
+
+<p>Burada model parametrelerini kafama göre belirledim, daha iyi bir model için parametre optimizasyonu yapılabilir. Bunlar biraz daha deneme yanılma ile öğrenilecek şeyler bana kalırsa.</p>
+
+<h3>Modeli, Loss fonksiyonunu ve Optimizer'ı tanımlayalım</h3>
+
+<pre><code>net = Net()
+criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(net.parameters(), lr=0.001)
+</code></pre>
+
+<ol>
+<li><strong>net = Net()</strong>, modeli oluşturur.</li>
+<li><strong>criterion = nn.CrossEntropyLoss()</strong>, loss fonksiyonunu tanımlar. CrossEntropyLoss, sınıflandırma problemleri için yaygın olarak kullanılan bir loss fonksiyonudur.</li>
+<li><strong>optimizer = torch.optim.Adam(net.parameters(), lr=0.001)</strong>, optimizer'ı tanımlar. Adam optimizer, gradient tabanlı optimizasyon algoritmalarından biridir.</li>
+</ol>
+
+<p>Burada da Loss fonksiyonunu ve Optimizer'ı tecrübeme dayanarak belirledim. Daha iyi bir model için bu parametrelerin değiştirilmesi gerekebilir. Örneğin Adam optimizer yerine SGD optimizer kullanılabilir.</p>
+
+<h3>Model özetini görelim</h3>
+
+<pre><code>summary(net, input_size=(64, 1, 28, 28))
+</code></pre>
+
+<p>Model özetini görmek için <strong>torchinfo</strong> kütüphanesini kullandım. Bu kütüphane, modelin katmanlarını ve parametrelerini gösterir. Burada <strong>inputsize</strong> parametresi, modelin girdi boyutunu belirtir. (batch_size, channels, height, width)</p>
+
+<p>Model özeti aşağıdaki gibi olacak:</p>
+
+<pre><code>==========================================================================================
+Layer (type:depth-idx)                   Output Shape              Param #
+==========================================================================================
+Net                                      [64, 10]                  --
+├─Linear: 1-1                            [64, 512]                 401,920
+├─Linear: 1-2                            [64, 256]                 131,328
+├─Linear: 1-3                            [64, 10]                  2,570
+==========================================================================================
+Total params: 535,818
+Trainable params: 535,818
+Non-trainable params: 0
+Total mult-adds (M): 34.29
+==========================================================================================
+Input size (MB): 0.20
+Forward/backward pass size (MB): 0.40
+Params size (MB): 2.14
+Estimated Total Size (MB): 2.74
+==========================================================================================
+</code></pre>
+
+<h3>Modeli eğitelim</h3>
+
+<pre><code>for epoch in range(5):  # loop over the dataset multiple times
+    running_loss = 0.0
+    for i, data in enumerate(trainloader, 0):
+        inputs, labels = data
+
+        optimizer.zero_grad()
+
+        outputs = net(inputs)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        running_loss += loss.item()
+        if i % 100 == 99:    # print every 100 mini-batches
+            print(f'[Epoch {epoch + 1}, Batch {i + 1}] loss: {running_loss / 100:.3f}')
+            running_loss = 0.0
+
+print('Finished Training')
+</code></pre>
+
+<ol>
+<li><strong>for epoch in range(5)</strong>, 5 epoch boyunca eğitim veri kümesi üzerinde döngü oluşturur.</li>
+<li><strong>running_loss = 0.0</strong>, loss değerini sıfırlar.</li>
+<li><strong>for i, data in enumerate(trainloader, 0)</strong>, eğitim veri kümesinde döngü oluşturur.</li>
+<li><strong>inputs, labels = data</strong>, veri kümesinden girdi ve etiketleri alır.</li>
+<li><strong>optimizer.zero_grad()</strong>, gradyanları sıfırlar.</li>
+<li><strong>outputs = net(inputs)</strong>, modeli eğitir.</li>
+<li><strong>loss = criterion(outputs, labels)</strong>, loss değerini hesaplar.</li>
+<li><strong>loss.backward()</strong>, gradyanları hesaplar.</li>
+<li><strong>optimizer.step()</strong>, modeli günceller.</li>
+<li><strong>running_loss += loss.item()</strong>, loss değerini toplar.</li>
+<li><strong>if i % 100 == 99</strong>, her 100 mini-batch'te loss değerini yazdırır.</li>
+<li><strong>print('Finished Training')</strong>, eğitimi tamamlar.</li>
+</ol>
+
+<p>Burada Keras'a göre biraz daha fazla kod yazdım. PyTorch'da <em>training loop</em> yazarken daha fazla kontrol sahibi oluyorsunuz. Bu, modelin nasıl eğitildiğini daha iyi anlamanıza yardımcı olabilir. Biraz daha proje yapmaya ihtiyacım var.</p>
+
+<h3>Modeli test edelim</h3>
+
+<pre><code>correct = 0
+total = 0
+with torch.no_grad():
+    for data in testloader:
+        images, labels = data
+        outputs = net(images)
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+print(f'Accuracy of the network on the 10000 test images: {100 * correct / total:.2f}%')
+</code></pre>
+
+<ol>
+<li><strong>correct = 0, total = 0</strong>, doğru tahmin sayısını ve toplam tahmin sayısını sıfırlar.</li>
+<li><strong>with torch.no_grad()</strong>, gradyanları kapatır. Bu, modelin eğitim sırasında gradyanları güncellememesini sağlar.</li>
+<li><strong>for data in testloader</strong>, test veri kümesinde döngü oluşturur.</li>
+<li><strong>images, labels = data</strong>, veri kümesinden girdi ve etiketleri alır.</li>
+<li><strong>outputs = net(images)</strong>, modeli test eder.</li>
+<li><strong>_, predicted = torch.max(outputs.data, 1)</strong>, tahminleri alır.</li>
+<li><strong>total += labels.size(0)</strong>, toplam tahmin sayısını artırır.</li>
+<li><strong>correct += (predicted == labels).sum().item()</strong>, doğru tahmin sayısını artırır.</li>
+<li><strong>print(f'Accuracy of the network on the 10000 test images: {100 * correct / total:.2f}%')</strong>, doğruluk oranını yazdırır.</li>
+</ol>
+
+<h2>Sonuç</h2>
+
+<p>ML tarafında yapabileceğimiz en basit projelerden biri buydu, PyTorch'u çok daha iyi anladığımı düşünüyorum ancak yazdığım kodun daha düzgün olması adına ChatGPT ve Stackoverflow gibi kaynaklardan destek aldım, ne yazık ki geçmiş tecrübemi göz önünde bulundurunca benim için öğrenme konusunda bir tık olumsuz bir tecrübe oldu. Ancak yine de PyTorch'u daha iyi anlamak için bu tarz basit projelerin yapılması gerektiğini düşünüyorum. Umarım bu yazı, PyTorch'u daha iyi anlamak isteyenlere yardımcı olur.</p>
+
+<p>Ayrıca bu blok yazısını yazabilmek için web siteme sıfırdan blog mekanizması eklemem gerekti 😅, bunu da dökümante etmek istiyorum.</p>
+
+<p>Görüşmek üzere!</p>
+
+    </div>
+
+    <script>
+        document.querySelectorAll('#content h1').forEach((item) => {
+            item.classList.add('text-2xl', 'font-semibold', 'mt-4', 'mb-4', 'text-gray-950');
+        });
+
+        document.querySelectorAll('#content h2').forEach((item) => {
+            item.classList.add('text-xl', 'font-semibold', 'mt-4', 'mb-4', 'text-gray-900');
+        });
+
+        document.querySelectorAll('#content h3').forEach((item) => {
+            item.classList.add('text-lg', 'font-semibold', 'mt-4', 'mb-4', 'text-gray-800');
+        });
+
+        document.querySelectorAll('#content p').forEach((item) => {
+            item.classList.add('text-base', 'text-gray-700', 'mt-2', 'mb-2');
+        });
+
+        document.querySelectorAll('#content a').forEach((item) => {
+            item.classList.add('text-base', 'text-blue-500');
+        });
+
+        document.querySelectorAll('#content em').forEach((item) => {
+            item.classList.add('text-base', 'text-gray-900');
+        });
+
+        document.querySelectorAll('#content strong').forEach((item) => {
+            item.classList.add('text-base', 'text-gray-900', 'font-semibold');
+        });
+
+        document.querySelectorAll('#content code').forEach((item) => {
+            item.classList.add('p-1', 'rounded', "mt-2", "mb-2");
+        });
+
+
+        document.querySelectorAll('#content ol').forEach((ol) => {
+            ol.querySelectorAll('li').forEach((item, index) => {
+                item.innerHTML = `${index + 1}. ${item.innerHTML}`;
+            });
+        });
+
+        document.querySelectorAll('#content ul').forEach((ul) => {
+            ul.classList.add('list-disc', 'list-inside');
+        });
+
+    </script>
+</body>
+
+</html>
