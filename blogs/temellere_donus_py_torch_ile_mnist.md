@@ -241,6 +241,8 @@ print(f'Accuracy of the network on the 10000 test images: {100 * correct / total
 
 ML tarafında yapabileceğimiz en basit projelerden biri buydu, PyTorch'u çok daha iyi anladığımı düşünüyorum ancak yazdığım kodun daha düzgün olması adına ChatGPT ve Stackoverflow gibi kaynaklardan destek aldım, ne yazık ki geçmiş tecrübemi göz önünde bulundurunca benim için öğrenme konusunda bir tık olumsuz bir tecrübe oldu. Ancak yine de PyTorch'u daha iyi anlamak için bu tarz basit projelerin yapılması gerektiğini düşünüyorum. Umarım bu yazı, PyTorch'u daha iyi anlamak isteyenlere yardımcı olur.
 
+Projenin olduğu Github reposuna [buradan](https://github.com/beratcmn/pytorch-mnist) ulaşabilirsiniz.
+
 Ayrıca bu blok yazısını yazabilmek için web siteme sıfırdan blog mekanizması eklemem gerekti 😅, bunu da dökümante etmek istiyorum.
 
 Görüşmek üzere!
