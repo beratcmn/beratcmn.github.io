@@ -26,26 +26,53 @@
     </div>
 
 
-    <div id="content" class="max-w-4xl mx-auto px-4">
+    <div id="content" class="max-w-4xl mx-auto px-4 py-4">
         <!-- Blog Content -->
         {{ content }}
     </div>
 
     <script>
         document.querySelectorAll('#content h1').forEach((item) => {
-            item.classList.add('text-2xl', 'font-semibol', 'mt-4', 'mb-4');
+            item.classList.add('text-2xl', 'font-semibold', 'mt-4', 'mb-4', 'text-gray-950');
         });
 
         document.querySelectorAll('#content h2').forEach((item) => {
-            item.classList.add('text-xl', 'font-semibold', 'mt-4', 'mb-4');
+            item.classList.add('text-xl', 'font-semibold', 'mt-4', 'mb-4', 'text-gray-900');
         });
 
         document.querySelectorAll('#content h3').forEach((item) => {
-            item.classList.add('text-lg', 'font-semibold', 'mt-4', 'mb-4');
+            item.classList.add('text-lg', 'font-semibold', 'mt-4', 'mb-4', 'text-gray-800');
         });
 
         document.querySelectorAll('#content p').forEach((item) => {
-            item.classList.add('text-base', 'text-gray-600', 'mt-2', 'mb-2');
+            item.classList.add('text-base', 'text-gray-700', 'mt-2', 'mb-2');
+        });
+
+        document.querySelectorAll('#content a').forEach((item) => {
+            item.classList.add('text-base', 'text-blue-500');
+        });
+
+        document.querySelectorAll('#content em').forEach((item) => {
+            item.classList.add('text-base', 'text-gray-900');
+        });
+
+        document.querySelectorAll('#content strong').forEach((item) => {
+            item.classList.add('text-base', 'text-gray-900', 'font-semibold');
+        });
+
+        document.querySelectorAll('#content code').forEach((item) => {
+            item.classList.add('p-1', 'rounded', "mt-2", "mb-2");
+        });
+
+
+        document.querySelectorAll('#content ol').forEach((ol) => {
+            ol.querySelectorAll('li').forEach((item, index) => {
+                item.innerHTML = `${index + 1}. ${item.innerHTML}`;
+            });
+        });
+
+        document.querySelectorAll('#content ul').forEach((ul) => {
+            ul.classList.add('list-disc', 'list-inside');
         });
 
     </script>
